@@ -30,21 +30,34 @@ const guardians = {
 function generatePlaylist(guardians, songs) {
     // Use the map() function to create playlists for each Guardian
     // Your code here
-    let playlists = {};
+    const playlistsDiv = document.getElementById("playlists");
 
-    // Repeat after ever each guardians
-    for(let guardian in guardians) {
-        // Gets the preffered genre for guardians
-        let preferredGenre = guardians[guardian];
+     Object.keys(guardians).map(guardian => {
+        const preferredGenre = guardians[guardian];
+        // Filter the songs to the preffered genre for guardians
+        const playlist = songs.filter(song => song.genre === preferredGenre);
 
+        // makes a new div for each guaedian's playlist
+        const guardianDiv = document.getElementById("div");
+        guardianDiv.className = "playlist";
+        guardianDiv.innerHTML = `<h2>${guardian}'s Playlists</h2>`;
 
-        let playlist = songs.map(song => song.genre === preferredGenre);
-
-        playlists[guardian] = playlist;
+        const songList = document.createElement("ul");
+        playlist.forEach(songs => {
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `<strong>${song.title}</strong> by ${song.artist}`;
+            songList.appendChild(listItem);
+        });
+        guardianDiv.appendChild(songList);
+        playlistsDiv.appendChild(guardianDiv);
+    });
+    
+    
     }
-}
-
+ 
 // Call generatePlaylist and display the playlists for each Guardian
 generatePlaylist(guardians, songs);
+
+
 
 
